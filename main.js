@@ -38,6 +38,19 @@ class Shellaction extends utils.Adapter {
     async onReady() {
         // Initialize your adapter here
         // Verify the device table contents
+        this.setObjectNotExists(this.namespace + ".stdout", {
+            type: "state",
+            common: {
+                name: "Stdout",
+                desc: "Command Output",
+                type: "string",
+                role: "state",
+                read: true,
+                write: false
+            },
+            native: {}
+        });
+
         if (!helper.isLikeEmpty(this.config.getRemoteDevices)) {
             for (const lpEntry of this.config.getRemoteDevices) {
 
@@ -168,7 +181,7 @@ class Shellaction extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-            if (state.val) {
+            if ((state.val) && (!id.includes("stdout"))) {
                 // The state was changed
                 const name = id.split(".")[id.split(".").length - 1];
                 //const whichState = statePath.split(".")[statePath.split(".").length - 1];  // e.g. [shutdown]
@@ -189,7 +202,8 @@ class Shellaction extends utils.Adapter {
                 }).then(() => {
                     ssh.execCommand(command)
                         .then(result => {
-                            this.log.info(`result.stdout = ${result.stdout}`);
+                            this.log.info(`${result.stdout}`);
+                            this.setState("stdout", String(result.stdout), true);
                             ssh.dispose();
                         });
                 }).catch(err => {
