@@ -1,0 +1,85 @@
+{
+    "common": {
+        "name": "shellaction",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "shellaction",
+        "titleLang": {
+            "en": "shellaction",
+            "de": "Shellaction",
+            "ru": "shellaction",
+            "pt": "shellaction",
+            "nl": "schellak",
+            "fr": "shellaction",
+            "it": "shellaction",
+            "es": "shellaction",
+            "pl": "shellaction",
+            "zh-cn": "壳作用"
+        },
+        "desc": {
+            "en": "send commands to a remote computer",
+            "de": "Senden Sie Befehle an einen Remotecomputer",
+            "ru": "отправлять команды на удаленный компьютер",
+            "pt": "enviar comandos para um computador remoto",
+            "nl": "stuur opdrachten naar een externe computer",
+            "fr": "envoyer des commandes à un ordinateur distant",
+            "it": "invia comandi a un computer remoto",
+            "es": "enviar comandos a una computadora remota",
+            "pl": "wysyłać polecenia do komputera zdalnego",
+            "zh-cn": "发送命令到远程计算机"
+        },
+        "authors": [
+            "bettman66 <w.zengel@gmx.de>"
+        ],
+        "keywords": [
+            "ssh shell command"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "shellaction.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/Bettman66/ioBroker.shellaction/master/admin/shellaction.png",
+        "readme": "https://github.com/Bettman66/ioBroker.shellaction/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "network",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "getRemoteDevices": [
+            {
+                "active": true,
+                "deviceName": "PC Name",
+                "deviceIp": "192.168.10.10",
+                "devicePort": "22",
+                "loginName": "login",
+                "loginPassword": "password",
+                "deviceCommand": "ls"
+            }
+        ]
+    },
+    "objects": [],
+    "instanceObjects": []
+}
