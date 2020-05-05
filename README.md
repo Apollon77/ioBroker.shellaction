@@ -16,6 +16,9 @@ send commands to a remote computer
 
 ## Changelog
 
+### 0.0.2
+* (bettman66) add state stdout
+
 ### 0.0.1
 * (bettman66) initial release
 

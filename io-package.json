@@ -1,10 +1,10 @@
 {
     "common": {
         "name": "shellaction",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "news": {
-            "0.0.1": {
-                "en": "initial release",
+            "0.0.2": {
+                "en": "add state stdout",
                 "de": "Erstveröffentlichung",
                 "ru": "Начальная версия",
                 "pt": "lançamento inicial",
@@ -42,7 +42,8 @@
             "zh-cn": "发送命令到远程计算机"
         },
         "authors": [
-            "bettman66 <w.zengel@gmx.de>"
+            "bettman66 <w.zengel@gmx.de>",
+            "bluefox <dogafox@gmail.com>"
         ],
         "keywords": [
             "ssh shell command"
@@ -70,13 +71,12 @@
     "native": {
         "getRemoteDevices": [
             {
-                "active": true,
-                "deviceName": "PC Name",
-                "deviceIp": "192.168.10.10",
-                "devicePort": "22",
-                "loginName": "login",
-                "loginPassword": "password",
-                "deviceCommand": "ls"
+                "deviceName": "",
+                "deviceIp": "",
+                "devicePort": "",
+                "loginName": "",
+                "loginPassword": "",
+                "deviceCommand": ""
             }
         ]
     },

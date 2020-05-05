@@ -1,15 +1,13 @@
 {
   "name": "iobroker.shellaction",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "send commands to a remote computer",
   "author": {
     "name": "bettman66",
     "email": "w.zengel@gmx.de"
   },
   "contributors": [
-    {
-      "name": "bluefox"
-    }
+    "bluefox <dogafox@gmail.com>"
   ],
   "homepage": "https://github.com/Bettman66/ioBroker.shellaction",
   "license": "MIT",
