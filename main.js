@@ -188,7 +188,8 @@ class Shellaction extends utils.Adapter {
                     password: password
                 }).then(() => {
                     ssh.execCommand(command)
-                        .then(function () {
+                        .then(result => {
+                            this.log.info(`result.stdout = ${result.stdout}`);
                             ssh.dispose();
                         });
                 }).catch(err => {
