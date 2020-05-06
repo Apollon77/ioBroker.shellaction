@@ -1,13 +1,9 @@
 ![Logo](admin/shellaction.png)
 # ioBroker.shellaction
 
+[![Build Status](https://travis-ci.org/Bettman66/ioBroker.shellaction.svg?branch=master)](https://travis-ci.org/Bettman66/ioBroker.shellaction)
 [![NPM version](http://img.shields.io/npm/v/iobroker.shellaction.svg)](https://www.npmjs.com/package/iobroker.shellaction)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.shellaction.svg)](https://www.npmjs.com/package/iobroker.shellaction)
-![Number of Installations (latest)](http://iobroker.live/badges/shellaction-installed.svg)
-![Number of Installations (stable)](http://iobroker.live/badges/shellaction-stable.svg)
-[![Dependency Status](https://img.shields.io/david/Bettman66/iobroker.shellaction.svg)](https://david-dm.org/Bettman66/iobroker.shellaction)
-[![Known Vulnerabilities](https://snyk.io/test/github/Bettman66/ioBroker.shellaction/badge.svg)](https://snyk.io/test/github/Bettman66/ioBroker.shellaction)
-
 [![NPM](https://nodei.co/npm/iobroker.shellaction.png?downloads=true)](https://nodei.co/npm/iobroker.shellaction/)
 
 ## shellaction adapter for ioBroker
@@ -15,6 +11,9 @@
 send commands to a remote computer
 
 ## Changelog
+
+### 0.0.3
+* (bettman66) add travis.yml
 
 ### 0.0.2
 * (bettman66) add state stdout

@@ -1,33 +1,57 @@
 {
     "common": {
         "name": "shellaction",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "news": {
+            "0.0.3": {
+                "en": "add travis.yml",
+                "de": "füge travis.yml hinzu",
+                "ru": "добавить travis.yml",
+                "pt": "adicionar travis.yml",
+                "nl": "voeg travis.yml toe",
+                "fr": "ajouter travis.yml",
+                "it": "aggiungi travis.yml",
+                "es": "agregar travis.yml",
+                "pl": "dodaj travis.yml",
+                "zh-cn": "添加travis.yml"
+            },
             "0.0.2": {
                 "en": "add state stdout",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
+                "de": "Status stdout hinzufügen",
+                "ru": "добавить штатный стандартный вывод",
+                "pt": "adicionar estado stdout",
+                "nl": "voeg status stdout toe",
+                "fr": "ajouter un état stdout",
+                "it": "aggiungi stato stdout",
+                "es": "agregar estado stdout",
+                "pl": "dodaj stan standardowe",
+                "zh-cn": "添加状态标准输出"
+            },
+            "0.0.1": {
+                "en": "initial version",
+                "de": "erste Version",
+                "ru": "Первоначальная версия",
+                "pt": "versão inicial",
+                "nl": "oorspronkelijke versie",
+                "fr": "version initiale",
+                "it": "versione iniziale",
+                "es": "versión inicial",
+                "pl": "początkowa wersja",
+                "zh-cn": "初始版本"
             }
         },
-        "title": "shellaction",
+        "title": "Shell Action",
         "titleLang": {
-            "en": "shellaction",
-            "de": "Shellaction",
-            "ru": "shellaction",
-            "pt": "shellaction",
-            "nl": "schellak",
-            "fr": "shellaction",
-            "it": "shellaction",
-            "es": "shellaction",
-            "pl": "shellaction",
-            "zh-cn": "壳作用"
+            "en": "Shell Action",
+            "de": "Shell-Aktion",
+            "ru": "Shell Action",
+            "pt": "Ação do Shell",
+            "nl": "Shell-actie",
+            "fr": "Shell Action",
+            "it": "Shell Action",
+            "es": "Acción de Shell",
+            "pl": "Shell Action",
+            "zh-cn": "壳牌行动"
         },
         "desc": {
             "en": "send commands to a remote computer",

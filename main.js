@@ -2,17 +2,15 @@
 
 /*
  * Created with @iobroker/create-adapter v1.24.2
+ **********************************************
+ ************ iobroker.shellaction ************
+ **********************************************
  */
 
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
 const utils = require("@iobroker/adapter-core");
-
 const path = require("path");
 const helper = require(path.join(__dirname, "lib", "utils.js"));
-
 const NodeSSH = require("node-ssh");
-
 const CONF_DEVICES = [];
 
 class Shellaction extends utils.Adapter {
@@ -85,7 +83,7 @@ class Shellaction extends utils.Adapter {
 
                 // Verify login
                 const login = lpEntry.loginName;
-                //login = helper.cleanStringForState(login);
+
                 if (login.length < 1) {
                     this.log.warn('[Adapter Configuration Error] Given login "' + lpEntry.loginName + '" is not valid.');
                 } else {
@@ -94,7 +92,7 @@ class Shellaction extends utils.Adapter {
 
                 // Verify password
                 const password = lpEntry.loginPassword;
-                //password = helper.cleanStringForState(password);
+
                 if (password.length < 1) {
                     this.log.warn('[Adapter Configuration Error] Given password "' + lpEntry.loginPassword + '" is not valid.');
                 } else {
@@ -103,7 +101,7 @@ class Shellaction extends utils.Adapter {
 
                 // Verify command
                 const command = lpEntry.deviceCommand;
-                //command = helper.cleanStringForState(command);
+
                 if (command.length < 1) {
                     this.log.warn('[Adapter Configuration Error] Given command "' + lpEntry.deviceCommand + '" is not valid.');
                 } else {
@@ -137,12 +135,6 @@ class Shellaction extends utils.Adapter {
         // in this template all states changes inside the adapters namespace are subscribed
         this.subscribeStates("*");
 
-        // examples for the checkPassword/checkGroup functions
-        let result = await this.checkPasswordAsync("admin", "iobroker");
-        this.log.info("check user admin pw iobroker: " + result);
-
-        result = await this.checkGroupAsync("admin", "admin");
-        this.log.info("check group user admin group admin: " + result);
     }
 
     /**
@@ -166,10 +158,10 @@ class Shellaction extends utils.Adapter {
     onObjectChange(id, obj) {
         if (obj) {
             // The object was changed
-            this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
+            this.log.debug(`object ${id} changed: ${JSON.stringify(obj)}`);
         } else {
             // The object was deleted
-            this.log.info(`object ${id} deleted`);
+            this.log.debug(`object ${id} deleted`);
         }
     }
 
@@ -180,11 +172,10 @@ class Shellaction extends utils.Adapter {
      */
     onStateChange(id, state) {
         if (state) {
-            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
             if ((state.val) && (!id.includes("stdout"))) {
                 // The state was changed
                 const name = id.split(".")[id.split(".").length - 1];
-                //const whichState = statePath.split(".")[statePath.split(".").length - 1];  // e.g. [shutdown]
 
                 // get IP and port
                 const ip = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceIp");
@@ -202,7 +193,7 @@ class Shellaction extends utils.Adapter {
                 }).then(() => {
                     ssh.execCommand(command)
                         .then(result => {
-                            this.log.info(`${result.stdout}`);
+                            this.log.debug(`${result.stdout}`);
                             this.setState("stdout", String(result.stdout), true);
                             ssh.dispose();
                         });
