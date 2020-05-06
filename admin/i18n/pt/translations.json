@@ -1,3 +1,9 @@
 {
+    "Command": "Comando",
+    "IP": "IP",
+    "Name": "Nome",
+    "Password": "Senha",
+    "Port": "Porta",
+    "User": "Do utilizador",
     "shellaction adapter settings": "Configurações do adaptador para shellaction"
 }

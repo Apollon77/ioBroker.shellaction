@@ -1,3 +1,9 @@
 {
+    "Command": "Commando",
+    "IP": "IK P",
+    "Name": "Naam",
+    "Password": "Wachtwoord",
+    "Port": "Port",
+    "User": "Gebruiker",
     "shellaction adapter settings": "Adapterinstellingen voor shellaction"
 }
