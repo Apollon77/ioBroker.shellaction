@@ -42,7 +42,7 @@ class Shellaction extends utils.Adapter {
                 name: "Stdout",
                 desc: "Command Output",
                 type: "string",
-                role: "state",
+                role: "text",
                 read: true,
                 write: false
             },
@@ -124,7 +124,7 @@ class Shellaction extends utils.Adapter {
                     name: ip + "->" + lpConfDevice.deviceCommand,
                     desc: "",
                     type: "boolean",
-                    role: "state",
+                    role: "switch",
                     read: true,
                     write: true
                 },
@@ -198,7 +198,7 @@ class Shellaction extends utils.Adapter {
                             ssh.dispose();
                         });
                 }).catch(err => {
-                    this.log.info("Fehler: " + err);
+                    this.log.error("Fehler: " + err);
                 });
                 this.setState(name, false, true);
             }
