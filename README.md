@@ -12,6 +12,9 @@ send commands to a remote computer
 
 ## Changelog
 
+### 0.0.4
+* (bettman66) add translations
+
 ### 0.0.3
 * (bettman66) add travis.yml
 

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "shellaction",
-        "version": "0.0.3",
+        "version": "0.0.4",
         "news": {
+            "0.0.4": {
+                "en": "add translations",
+                "de": "Übersetzungen hinzufügen",
+                "ru": "добавить переводы",
+                "pt": "adicionar traduções",
+                "nl": "vertalingen toevoegen",
+                "fr": "ajouter des traductions",
+                "it": "aggiungi traduzioni",
+                "es": "agregar traducciones",
+                "pl": "dodaj tłumaczenia",
+                "zh-cn": "添加翻译"
+            },
             "0.0.3": {
                 "en": "add travis.yml",
                 "de": "füge travis.yml hinzu",
