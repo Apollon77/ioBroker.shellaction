@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "shellaction",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "news": {
+            "0.0.5": {
+                "en": "change role",
+                "de": "Rolle wechseln",
+                "ru": "изменить роль",
+                "pt": "mudar de papel",
+                "nl": "verander rol",
+                "fr": "changer de rôle",
+                "it": "cambia ruolo",
+                "es": "cambio de rol",
+                "pl": "zmień rolę",
+                "zh-cn": "换角色"
+            },
             "0.0.4": {
                 "en": "add translations",
                 "de": "Übersetzungen hinzufügen",

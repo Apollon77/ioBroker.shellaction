@@ -1,10 +1,13 @@
 "use strict";
 
 /*
- * Created with @iobroker/create-adapter v1.24.2
- **********************************************
- ************ iobroker.shellaction ************
- **********************************************
+ *
+ *      ioBroker Shell Action Adapter
+ *
+ *      (c) 2020 bettman66<w.zengel@gmx.de>
+ *
+ *      MIT License
+ *
  */
 
 const utils = require("@iobroker/adapter-core");
