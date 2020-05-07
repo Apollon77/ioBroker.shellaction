@@ -117,7 +117,7 @@ class Shellaction extends utils.Adapter {
             }
         }
 
-        if (CONF_DEVICES.length < 1) this.log.error("[Adapter Configuration Error] No devices configured.");
+        //if (CONF_DEVICES.length < 1) this.log.error("[Adapter Configuration Error] No devices configured.");
 
         for (const lpConfDevice of CONF_DEVICES) {
             const ip = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", lpConfDevice.deviceName, "deviceIp");
