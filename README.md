@@ -11,6 +11,7 @@
 send commands to a remote computer
 
 The commands are sent via SSH, they must specify the user and password.
+
 Die Befehle werden über SSH gesendet, es muss der User und das Passwort angegeben werden.
 
 ## Changelog
