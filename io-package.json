@@ -117,16 +117,6 @@
         ]
     },
     "native": {
-        "getRemoteDevices": [
-            {
-                "deviceName": "",
-                "deviceIp": "",
-                "devicePort": "",
-                "loginName": "",
-                "loginPassword": "",
-                "deviceCommand": ""
-            }
-        ]
     },
     "objects": [],
     "instanceObjects": []
