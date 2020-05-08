@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "shellaction",
-        "version": "0.0.5",
+        "version": "0.0.6",
         "news": {
+            "0.0.6": {
+                "en": "format html",
+                "de": "Format HTML",
+                "ru": "формат HTML",
+                "pt": "formato html",
+                "nl": "formaat html",
+                "fr": "format html",
+                "it": "formato html",
+                "es": "formato html",
+                "pl": "format html",
+                "zh-cn": "格式化html"
+            },
             "0.0.5": {
                 "en": "change role",
                 "de": "Rolle wechseln",
@@ -116,8 +128,7 @@
             }
         ]
     },
-    "native": {
-    },
+    "native": {},
     "objects": [],
     "instanceObjects": []
 }

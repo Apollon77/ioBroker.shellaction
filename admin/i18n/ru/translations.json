@@ -1,6 +1,7 @@
 {
     "Command": "команда",
     "IP": "IP",
+    "IP Address": "Айпи адрес",
     "Name": "имя",
     "Password": "пароль",
     "Port": "порт",

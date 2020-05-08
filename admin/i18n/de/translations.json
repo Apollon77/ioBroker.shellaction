@@ -1,6 +1,7 @@
 {
     "Command": "Befehl",
     "IP": "IP",
+    "IP Address": "IP Adresse",
     "Name": "Name",
     "Password": "Passwort",
     "Port": "Port",
