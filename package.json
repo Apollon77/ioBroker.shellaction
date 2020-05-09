@@ -1,6 +1,6 @@
 {
   "name": "iobroker.shellaction",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "send commands to a remote computer",
   "author": {
     "name": "bettman66",

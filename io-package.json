@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "shellaction",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "news": {
+            "0.0.8": {
+                "en": "ssh certificates",
+                "de": "SSH-Zertifikate",
+                "ru": "SSH сертификаты",
+                "pt": "certificados ssh",
+                "nl": "ssh-certificaten",
+                "fr": "certificats ssh",
+                "it": "certificati ssh",
+                "es": "certificados ssh",
+                "pl": "certyfikaty ssh",
+                "zh-cn": "ssh证书"
+            },
             "0.0.7": {
                 "en": "add command object",
                 "de": "Befehlsobjekt hinzufügen",

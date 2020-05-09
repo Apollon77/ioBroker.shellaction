@@ -205,57 +205,71 @@ class Shellaction extends utils.Adapter {
                         const user = jsonContent.user;
                         const command = jsonContent.command;
 
-                        const ssh = new NodeSSH();
-                        ssh.connect({
-                            host: ip,
-                            port: port,
-                            username: user,
-                            password: password
-                        }).then(() => {
-                            ssh.execCommand(command)
-                                .then(result => {
-                                    this.log.debug(`${result.stdout}`);
-                                    this.setState("stdout", String(result.stdout), true);
-                                    ssh.dispose();
-                                });
-                        }).catch(err => {
-                            this.log.error("Fehler: " + err);
-                        });
+                        this.execssh(name, ip, port, user, password, command);
                     } catch (err) {
                         this.log.error(String(state.val) + "->" + err);
                         this.log.error("e.g.->" + '{"user":"pi","password":"raspberry","ip":"192.168.122.27","port":"22","command":"ls"}');
                     }
                 } else {
-                    // get IP and port
                     const ip = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceIp");
                     const port = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "devicePort");
                     const password = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginPassword");
                     const user = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginName");
                     const command = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceCommand");
 
-                    const ssh = new NodeSSH();
-                    ssh.connect({
-                        host: ip,
-                        port: port,
-                        username: user,
-                        password: password
-                    }).then(() => {
-                        ssh.execCommand(command)
-                            .then(result => {
-                                this.log.debug(`${result.stdout}`);
-                                this.setState("stdout", String(result.stdout), true);
-                                ssh.dispose();
-                            });
-                    }).catch(err => {
-                        this.log.error("Fehler: " + err);
-                    });
-                    this.setState(name, false, true);
+                    this.execssh(name, ip, port, user, password, command);
                 }
             }
         } else {
             // The state was deleted
             this.log.info(`state ${id} deleted`);
         }
+    }
+
+    /**
+     * @param {string} name
+     * @param {string} ip
+     * @param {string} port
+     * @param {string} user
+     * @param {string} password
+     * @param {string} command
+     */
+    execssh(name, ip, port, user, password, command) {
+        const ssh = new NodeSSH();
+        if (password.includes("id_rsa")) {
+            ssh.connect({
+                host: ip,
+                port: port,
+                username: user,
+                privateKey: password
+            }).then(() => {
+                ssh.execCommand(command)
+                    .then(result => {
+                        this.log.debug(`${result.stdout}`);
+                        this.setState("stdout", String(result.stdout), true);
+                        ssh.dispose();
+                    });
+            }).catch(err => {
+                this.log.error("Fehler: " + err);
+            });
+        } else {
+            ssh.connect({
+                host: ip,
+                port: port,
+                username: user,
+                password: password
+            }).then(() => {
+                ssh.execCommand(command)
+                    .then(result => {
+                        this.log.debug(`${result.stdout}`);
+                        this.setState("stdout", String(result.stdout), true);
+                        ssh.dispose();
+                    });
+            }).catch(err => {
+                this.log.error("Fehler: " + err);
+            });
+        }
+        this.setState(name, false, true);
     }
 }
 

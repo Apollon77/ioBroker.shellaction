@@ -16,6 +16,9 @@ Die Befehle werden über SSH gesendet, es muss der User und das Passwort angegeb
 
 ## Changelog
 
+### 0.0.8
+* (bettman66) ssh certificates
+
 ### 0.0.7
 * (bettman66) add command object
 
