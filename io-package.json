@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "shellaction",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "news": {
+            "0.0.7": {
+                "en": "add command object",
+                "de": "Befehlsobjekt hinzufügen",
+                "ru": "добавить объект команды",
+                "pt": "adicionar objeto de comando",
+                "nl": "commando-object toevoegen",
+                "fr": "ajouter un objet de commande",
+                "it": "aggiungi oggetto comando",
+                "es": "agregar objeto de comando",
+                "pl": "dodaj obiekt polecenia",
+                "zh-cn": "添加命令对象"
+            },
             "0.0.6": {
                 "en": "format html",
                 "de": "Format HTML",
@@ -128,7 +140,18 @@
             }
         ]
     },
-    "native": {},
+    "native": {
+        "getRemoteDevices": [
+            {
+                "deviceName": "Localhost_ls",
+                "deviceIp": "127.0.0.1",
+                "devicePort": "22",
+                "loginName": "pi",
+                "loginPassword": "raspberry",
+                "deviceCommand": "ls"
+            }
+        ]
+    },
     "objects": [],
     "instanceObjects": []
 }

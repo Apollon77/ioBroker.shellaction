@@ -52,6 +52,19 @@ class Shellaction extends utils.Adapter {
             native: {}
         });
 
+        this.setObjectNotExists(this.namespace + ".command", {
+            type: "state",
+            common: {
+                name: "Command",
+                desc: "Command Input",
+                type: "string",
+                role: "text",
+                read: true,
+                write: true
+            },
+            native: {}
+        });
+
         if (!helper.isLikeEmpty(this.config.getRemoteDevices)) {
             for (const lpEntry of this.config.getRemoteDevices) {
 
@@ -117,7 +130,7 @@ class Shellaction extends utils.Adapter {
             }
         }
 
-        //if (CONF_DEVICES.length < 1) this.log.error("[Adapter Configuration Error] No devices configured.");
+        if (CONF_DEVICES.length < 1) this.log.error("[Adapter Configuration Error] No devices configured.");
 
         for (const lpConfDevice of CONF_DEVICES) {
             const ip = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", lpConfDevice.deviceName, "deviceIp");
@@ -176,34 +189,68 @@ class Shellaction extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-            if ((state.val) && (!id.includes("stdout"))) {
+            if (state.val) {
                 // The state was changed
                 const name = id.split(".")[id.split(".").length - 1];
 
-                // get IP and port
-                const ip = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceIp");
-                const port = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "devicePort");
-                const password = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginPassword");
-                const login = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginName");
-                const command = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceCommand");
+                if (name == "stdout") {
+                    return;
+                } else if (name == "command") {
+                    // {"user":"pi","password":"raspberry","ip":"192.168.122.27","port":"22","command":"ls"}
+                    try {
+                        const jsonContent = JSON.parse(String(state.val));
+                        const ip = jsonContent.ip;
+                        const port = jsonContent.port;
+                        const password = jsonContent.password;
+                        const user = jsonContent.user;
+                        const command = jsonContent.command;
 
-                const ssh = new NodeSSH();
-                ssh.connect({
-                    host: ip,
-                    port: port,
-                    username: login,
-                    password: password
-                }).then(() => {
-                    ssh.execCommand(command)
-                        .then(result => {
-                            this.log.debug(`${result.stdout}`);
-                            this.setState("stdout", String(result.stdout), true);
-                            ssh.dispose();
+                        const ssh = new NodeSSH();
+                        ssh.connect({
+                            host: ip,
+                            port: port,
+                            username: user,
+                            password: password
+                        }).then(() => {
+                            ssh.execCommand(command)
+                                .then(result => {
+                                    this.log.debug(`${result.stdout}`);
+                                    this.setState("stdout", String(result.stdout), true);
+                                    ssh.dispose();
+                                });
+                        }).catch(err => {
+                            this.log.error("Fehler: " + err);
                         });
-                }).catch(err => {
-                    this.log.error("Fehler: " + err);
-                });
-                this.setState(name, false, true);
+                    } catch (err) {
+                        this.log.error(String(state.val) + "->" + err);
+                        this.log.error("e.g.->" + '{"user":"pi","password":"raspberry","ip":"192.168.122.27","port":"22","command":"ls"}');
+                    }
+                } else {
+                    // get IP and port
+                    const ip = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceIp");
+                    const port = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "devicePort");
+                    const password = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginPassword");
+                    const user = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginName");
+                    const command = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceCommand");
+
+                    const ssh = new NodeSSH();
+                    ssh.connect({
+                        host: ip,
+                        port: port,
+                        username: user,
+                        password: password
+                    }).then(() => {
+                        ssh.execCommand(command)
+                            .then(result => {
+                                this.log.debug(`${result.stdout}`);
+                                this.setState("stdout", String(result.stdout), true);
+                                ssh.dispose();
+                            });
+                    }).catch(err => {
+                        this.log.error("Fehler: " + err);
+                    });
+                    this.setState(name, false, true);
+                }
             }
         } else {
             // The state was deleted
