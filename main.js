@@ -13,6 +13,7 @@
 const utils = require("@iobroker/adapter-core");
 const path = require("path");
 const helper = require(path.join(__dirname, "lib", "utils.js"));
+const { exec } = require("child_process");
 const NodeSSH = require("node-ssh");
 const CONF_DEVICES = [];
 
@@ -79,42 +80,6 @@ class Shellaction extends utils.Adapter {
                     pass = true;
                 }
 
-                // Verify IP address
-                let ip = lpEntry.deviceIp;
-                ip = ip.replace(/\s+/g, ""); // remove all white-spaces
-                const checkIp = ip.match(/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/);
-                if (checkIp == null && ip != "localhost") {
-                    this.log.warn('[Adapter Configuration Error] Given IP address "' + lpEntry.deviceIp + '" is not valid.');
-                } else {
-                    pass = true;
-                }
-
-                // Verify Port
-                const port = parseInt(lpEntry.devicePort);
-                if (!helper.isLikeEmpty(port) && (port > 1) && (port <= 65535)) {
-                    pass = true;
-                } else {
-                    this.log.warn('[Adapter Configuration Error] Given port "' + lpEntry.devicePort + '" is not valid.');
-                }
-
-                // Verify login
-                const login = lpEntry.loginName;
-
-                if (login.length < 1) {
-                    this.log.warn('[Adapter Configuration Error] Given login "' + lpEntry.loginName + '" is not valid.');
-                } else {
-                    pass = true;
-                }
-
-                // Verify password
-                const password = lpEntry.loginPassword;
-
-                if (password.length < 1) {
-                    this.log.warn('[Adapter Configuration Error] Given password "' + lpEntry.loginPassword + '" is not valid.');
-                } else {
-                    pass = true;
-                }
-
                 // Verify command
                 const command = lpEntry.deviceCommand;
 
@@ -124,9 +89,42 @@ class Shellaction extends utils.Adapter {
                     pass = true;
                 }
 
-                // Finalize
-                if (pass) CONF_DEVICES.push({ deviceName: name, deviceIp: ip, devicePort: port, loginName: login, loginPassword: password, deviceCommand: command });
+                // Verify IP address
+                let ip = lpEntry.deviceIp;
+                if (ip.length < 1) {
+                    if (pass) CONF_DEVICES.push({ deviceName: name, deviceIp: "", devicePort: "", loginName: "", loginPassword: "", deviceCommand: command });
+                } else {
+                    ip = ip.replace(/\s+/g, ""); // remove all white-spaces
+                    const checkIp = ip.match(/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/);
+                    if (checkIp == null && ip != "localhost") {
+                        this.log.warn('[Adapter Configuration Error] Given IP address "' + lpEntry.deviceIp + '" is not valid.');
+                    } else {
+                        pass = true;
+                    }
 
+                    // Verify Port
+                    const port = parseInt(lpEntry.devicePort);
+                    if (!helper.isLikeEmpty(port) && (port > 1) && (port <= 65535)) {
+                        pass = true;
+                    } else {
+                        this.log.warn('[Adapter Configuration Error] Given port "' + lpEntry.devicePort + '" is not valid.');
+                    }
+
+                    // Verify login
+                    const login = lpEntry.loginName;
+
+                    if (login.length < 1) {
+                        this.log.warn('[Adapter Configuration Error] Given login "' + lpEntry.loginName + '" is not valid.');
+                    } else {
+                        pass = true;
+                    }
+
+                    const password = lpEntry.loginPassword;
+                    pass = true;
+
+                    // Finalize
+                    if (pass) CONF_DEVICES.push({ deviceName: name, deviceIp: ip, devicePort: port, loginName: login, loginPassword: password, deviceCommand: command });
+                }
             }
         }
 
@@ -191,39 +189,64 @@ class Shellaction extends utils.Adapter {
             this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
             if (state.val) {
                 // The state was changed
-                const name = id.split(".")[id.split(".").length - 1];
+                const name = String(id.split(".").pop());
 
                 if (name == "stdout") {
                     return;
                 } else if (name == "command") {
-                    // {"user":"pi","password":"raspberry","ip":"192.168.122.27","port":"22","command":"ls"}
                     try {
                         const jsonContent = JSON.parse(String(state.val));
                         const ip = jsonContent.ip;
-                        const port = jsonContent.port;
-                        const password = jsonContent.password;
-                        const user = jsonContent.user;
                         const command = jsonContent.command;
-
-                        this.execssh(name, ip, port, user, password, command);
+                        if ((ip == "") || (!ip)) {
+                            this.execcommand(name, command);
+                        } else {
+                            const port = jsonContent.port;
+                            const password = jsonContent.password;
+                            const user = jsonContent.user;
+                            this.execssh(name, ip, port, user, password, command);
+                        }
                     } catch (err) {
                         this.log.error(String(state.val) + "->" + err);
                         this.log.error("e.g.->" + '{"user":"pi","password":"raspberry","ip":"192.168.122.27","port":"22","command":"ls"}');
                     }
                 } else {
                     const ip = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceIp");
-                    const port = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "devicePort");
-                    const password = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginPassword");
-                    const user = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginName");
                     const command = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "deviceCommand");
-
-                    this.execssh(name, ip, port, user, password, command);
+                    if (ip == "") {
+                        this.execcommand(name, command);
+                    } else {
+                        const port = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "devicePort");
+                        const password = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginPassword");
+                        const user = helper.getConfigValuePerKey(CONF_DEVICES, "deviceName", name, "loginName");
+                        this.execssh(name, ip, port, user, password, command);
+                    }
                 }
             }
         } else {
             // The state was deleted
             this.log.info(`state ${id} deleted`);
         }
+    }
+
+    /**
+     * @param {string} name
+     * @param {string} command
+     */
+    execcommand(name, command) {
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                this.log.error(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                this.log.error(`stderr: ${stderr}`);
+                return;
+            }
+            this.log.debug(`stdout: ${stdout}`);
+            this.setState("stdout", String(stdout), true);
+        });
+        if (name != "command") this.setState(name, false, true);
     }
 
     /**
@@ -269,7 +292,7 @@ class Shellaction extends utils.Adapter {
                 this.log.error("Fehler: " + err);
             });
         }
-        this.setState(name, false, true);
+        if (name != "command") this.setState(name, false, true);
     }
 }
 
